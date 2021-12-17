@@ -14,7 +14,10 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             return { ...state, ...action.payload }
         case "REGISTER_SUCCESS":
             console.log("DATA DARI PAYLOAD REGISTER", action.payload)
-            return {...state, ...action.payload }
+            return { ...state, ...action.payload }
+        case "UPDATE_USER_CART":
+            console.log("AMBIL CART", action.payload)
+            return { ...state, cart: action.payload }
         default:
             return state
     }

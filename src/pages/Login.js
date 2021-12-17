@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, StatusBar, KeyboardAvoidingView, Alert } from 'react-native';
 import { Button, Input, Text, Icon, SocialIcon } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { onLogin } from '../actions';
 
 const LoginPage = (props) => {
-    // useDispatch: digunakan utk menjalankan fungsi dari acion, pengganti connect class component
+    // useDispatch: digunakan utk menjalankan fungsi dari action, pengganti connect class component
     const dispatch = useDispatch();
 
     // useSelector: pengganti mapToProps pada class component
@@ -23,6 +23,12 @@ const LoginPage = (props) => {
     const [username, setInUsername] = useState("")
     const [password, setInPassword] = useState("")
     const [onPassword, setInOnPassword] = useState(true)
+
+    useEffect(() => {
+        if (iduser) {
+            props.navigation.dispatch(StackActions.replace("TabNav"))
+        }
+    })
 
     const ShowPassword = (status) => {
         setInOnPassword(status)

@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
-import { FlatList, Image, ScrollView, StatusBar, View } from 'react-native';
+import { Alert, FlatList, Image, ScrollView, StatusBar, View } from 'react-native';
 import { Text, Icon, Button, Overlay, Input } from 'react-native-elements';
 import { color } from 'react-native-elements/dist/helpers';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserCart } from '../actions';
 
 
 const DetailProduct = (props) => {
 
+
+    const dispatch = useDispatch()
+    const { cart, idUser } = useSelector((state) => {
+        return {
+            cart: state.userReducer.cart,
+            idUser: state.userReducer.id
+        }
+    })
+
     const { nama, kategori, deskripsi, harga, brand, images, stock } = props.route.params.detail
 
     const [visible, setVisible] = useState(false);
-    const [activeType, setActiveType] = useState(null);
-    const [qty, setQty] = useState(null);
+    const [activeType, setActiveType] = useState({});
+    const [qty, setQty] = useState("1");
 
     const printType = () => {
         return stock.map((value, index) => {
-           return activeType == index ?
+            return activeType.type == value.type ?
                 <Button
                     title={value.type}
                     type="clear"
@@ -28,8 +39,8 @@ const DetailProduct = (props) => {
                     titleStyle={{
                         color: "white"
                     }}
-                    onPress={() => btQty(index)} />
-            :
+                    onPress={() => setActiveType(value)} />
+                :
                 <Button
                     title={value.type}
                     type="clear"
@@ -40,20 +51,60 @@ const DetailProduct = (props) => {
                         borderWidth: 1,
                         borderColor: "gray"
                     }}
-                    onPress={() => btQty(index)} />
+                    onPress={() => setActiveType(value)} />
 
-            
+
         })
-    }
-
-    const btQty = (index) => {
-        setActiveType(index)
-        setQty(stock[index].qty)
     }
 
     const toggleOverlay = () => {
         setVisible(!visible);
-      };
+    };
+
+    const onBtAddToCart = async () => {
+        if (activeType.type) {
+            toggleOverlay()
+
+        } else
+            Alert.alert("Attention!", "Choose product type first.")
+    }
+
+    const onBtSubmit = async () => {
+        /***
+            * 1. mengambil data cart sebelumnya
+            * 2. menambahkan data cart yang baru kedalam data cart sebelumnya
+            * 3. mengirim data cart yang telah diperbarui ke json-server/api
+            * 4. alert success add to cart
+            */
+
+        let dataCart = {
+            image: images,
+            nama: nama,
+            brand: brand,
+            harga: harga,
+            type: activeType.type,
+            qty: parseInt(qty)
+        }
+
+        let temp = [...cart]
+        temp.push(dataCart);
+
+        if (parseInt(qty) > 0 && idUser) {
+            let res = await dispatch(updateUserCart(temp, idUser));
+            if (res.success) {
+                Alert.alert("Success", "Check your cart",
+                [
+                    {
+                        text: "Ok",
+                        onPress: toggleOverlay
+                    }
+                ])
+                
+            }
+        } else {
+            Alert.alert("Attention!", "min 1 qty")
+        }
+    }
 
     // console.log(props.route.params)
 
@@ -103,8 +154,7 @@ const DetailProduct = (props) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <Text style={{ color: "#1b1464", fontWeight: "800" }}>
-                        Choose type: <Text style={{ color: "gray" }}>{stock.length} type,</Text>
-                        <Text> {qty} stock</Text>
+                        Choose type: <Text style={{ color: "gray" }}>{stock.length} type</Text>,{activeType.qty ? `${activeType.qty} stock` : " stock"}
                     </Text>
                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
                         {printType()}
@@ -129,16 +179,18 @@ const DetailProduct = (props) => {
                 titleStyle={{
                     color: "black"
                 }}
-                onPress={toggleOverlay}
+                onPress={onBtAddToCart}
             />
             <View>
                 <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-                    <Input placeholder="Input Stock" keyboardType="numeric" containerStyle={{width: wp(80)}}/>
-                    {/* <Button>
-                    <Icon name="plus-square" type="feather"/>
-                    <Text>Submit</Text>
-                    </Button> */}
-                    <Button title="Submit" type='clear' titleStyle={{color: '#f1c40f'}}/>
+                    <Input
+                        placeholder="Input Stock"
+                        keyboardType="numeric"
+                        containerStyle={{ width: wp(80) }}
+                        value={qty.toString()}
+                        onChangeText={value => setQty(value)}
+                    />
+                    <Button title="Submit" type='clear' titleStyle={{ color: '#f1c40f' }} onPress={onBtSubmit} />
                 </Overlay>
             </View>
 

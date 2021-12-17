@@ -5,6 +5,7 @@ import { Button, Input, Text, Icon, SocialIcon } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useDispatch } from 'react-redux';
 import { Register } from '../actions';
+import { StackActions } from '@react-navigation/native';
 import { API_URL } from '../helper';
 
 
@@ -26,9 +27,15 @@ const RegisterPage = (props) => {
 
         let res = await dispatch(Register(username, email, password));
 
-        if(res.success > 0){
+        if(res.success){
             console.log("Register berhasil", res)
-            Alert.alert("Register berhasil silahkan login :)")
+            Alert.alert(null, "Register berhasil silahkan login :)", 
+            [
+                {
+                    text: "To Login Page",
+                    onPress: () => props.navigation.dispatch(StackActions.replace("Login"))
+                }
+            ])
         }else{
             Alert.alert("Lengkapi semua data")
         }
