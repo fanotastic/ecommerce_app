@@ -190,10 +190,12 @@ const Cart = (props) => {
         let dataKeranjang = {
             iduser: idUser,
             username: username,
-            invoice: `#INV ${date.getDate()}`,
-            date: date.toLocaleString(),
+            invoice: `#INV ${date.getTime()}`,
+            date: date.toLocaleString("id-ID"),
+            note: '',
             totalPayment: total,
             shipping: shipping(),
+            tax: tax(),
             detail: [...cart],
             status:"Menunggu Konfirmasi"
         }
@@ -215,7 +217,7 @@ const Cart = (props) => {
         return cart.map((value, index) => {
             return (
                 <View style={{ flexDirection: 'row', display: 'flex' }}>
-                    <Image source={{ uri: value.image[0] }} style={{ width: wp(20), height: hp(10) }} />
+                    <Image source={{ uri: value.image }} style={{ width: wp(20), height: hp(10) }} />
                     <View style={{ flexDirection: 'row', marginHorizontal: 30 }}>
                         <View style={{ justifyContent: 'space-evenly' }}>
                             <Text style={{ fontWeight: '800' }}>{value.nama}</Text>

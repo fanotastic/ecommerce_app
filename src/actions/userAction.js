@@ -87,3 +87,10 @@ export const updateUserCart = (dataCart, idUser) => {
         }
     }
 }
+
+export const logOutAction = () => {
+    return async (dispatch) => { 
+        await AsyncStorageLib.removeItem("dataUser");
+        dispatch ({type: "LOGOUT"})
+    }
+}

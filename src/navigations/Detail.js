@@ -78,7 +78,7 @@ const DetailProduct = (props) => {
             */
 
         let dataCart = {
-            image: images,
+            image: images[0],
             nama: nama,
             brand: brand,
             harga: harga,

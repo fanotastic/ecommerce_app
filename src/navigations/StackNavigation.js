@@ -6,6 +6,7 @@ import TabNavigation from './TabNavigation';
 import DetailProduct from './Detail';
 import { useDispatch } from 'react-redux';
 import { onKeepLogin } from '../actions';
+import HistoryPage from '../pages/History';
 
 const Stack = createNativeStackNavigator() // karna terlalu panjang maka ditampung di variabel
 const StackNavigation = (props) => {
@@ -23,6 +24,7 @@ const StackNavigation = (props) => {
             <Stack.Screen name="TabNav" component={TabNavigation} options={{ headerShown: false }}/>
             <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
             <Stack.Screen name="Detail" component={DetailProduct} options={{ headerShown: false }}/>
+            <Stack.Screen name="History" component={HistoryPage}/>
         </Stack.Navigator>
     )
 }

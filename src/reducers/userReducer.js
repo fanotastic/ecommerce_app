@@ -18,6 +18,8 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         case "UPDATE_USER_CART":
             console.log("AMBIL CART", action.payload)
             return { ...state, cart: action.payload }
+        case "LOGOUT":
+            return INITIAL_STATE
         default:
             return state
     }
