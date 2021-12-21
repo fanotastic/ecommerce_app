@@ -185,6 +185,8 @@ const Cart = (props) => {
 
 
     const onBtCheckOut = () => {
+
+        
         const date = new Date();
         let total = Total() + shipping() + tax()
         let dataKeranjang = {
@@ -199,18 +201,28 @@ const Cart = (props) => {
             detail: [...cart],
             status:"Menunggu Konfirmasi"
         }
-        axios.post(`${API_URL}/userTransactions`, dataKeranjang)
-        .then((response)=> {
-            dispatch(updateUserCart([], idUser))
-        }).catch((error)=>{
-            console.log(error)
-        })
-        Alert.alert("Checkout Success!", "Continue to payment",[
-            {
-                text: "To home page",
-                onPress: () => props.navigation.goBack()
-            }
-        ])
+
+        if (cart.length){
+            axios.post(`${API_URL}/userTransactions`, dataKeranjang)
+            .then((response)=> {
+                dispatch(updateUserCart([], idUser))
+            }).catch((error)=>{
+                console.log(error)
+            })
+            Alert.alert("Checkout Success!", "Continue to payment",[
+                {
+                    text: "To home page",
+                    onPress: () => props.navigation.goBack()
+                }
+            ])
+        }else{
+            Alert.alert("Cart is empty", null,[
+                {
+                    text: "Cancel"
+                }
+            ])
+        }
+
     }
 
     const printCart = () => {

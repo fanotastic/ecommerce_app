@@ -22,6 +22,9 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         case "UPDATE_USER_PHOTO":
             console.log("PHOTO", action.payload)
             return { ...state, photo: action.payload }
+        case "UPDATE_USER_DATA":
+            console.log("DATA", action.payload)
+            return { ...state, ...action.payload }
         case "LOGOUT":
             return INITIAL_STATE
         default:

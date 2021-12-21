@@ -96,7 +96,7 @@ const HistoryPage = (props) => {
                             buttonStyle={{ padding: 3 }}
                             titleStyle={{ fontSize: 12 }}
                             containerStyle={{ margin: 5 }}
-                            onPress={() => props.navigation.navigate("Detail Transaction", { detail: value })}
+                            onPress={() => props.navigation.navigate("Detail Transactions", { detail: value })}
                         />
                         <Button
                             title="Batalkan Pesanan"

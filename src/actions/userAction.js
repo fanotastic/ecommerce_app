@@ -89,6 +89,27 @@ export const updateUserCart = (dataCart, idUser) => {
     }
 }
 
+export const updateUserData = (username, email, password, idUser) => {
+    return async (dispatch) => {
+        try {
+            let res = await axios.patch(`${API_URL}/users/${idUser}`, {
+                username: username,
+                email: email,
+                password: password,
+            })
+            dispatch({
+                type: "UPDATE_USER_DATA",
+                payload: res.data
+            })
+
+            return ({ success: true })
+
+        } catch (error) {
+
+        }
+    }
+}
+
 export const updateUserPhoto = (image, idUser) => {
     return async (dispatch) => {
         try {

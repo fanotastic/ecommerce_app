@@ -84,4 +84,4 @@ const DetailTransactions = (props) => {
     )
 }
 
-export default DetailTransactions
+export default DetailTransactions;
