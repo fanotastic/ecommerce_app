@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     email: "",
     role: "",
     status: "",
+    photo: "",
     cart: []
 }
 
@@ -18,6 +19,9 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         case "UPDATE_USER_CART":
             console.log("AMBIL CART", action.payload)
             return { ...state, cart: action.payload }
+        case "UPDATE_USER_PHOTO":
+            console.log("PHOTO", action.payload)
+            return { ...state, photo: action.payload }
         case "LOGOUT":
             return INITIAL_STATE
         default:

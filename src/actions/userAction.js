@@ -55,6 +55,7 @@ export const Register = (username, email, password) => {
                 password,
                 role: "user",
                 status: "Active",
+                photo: "https://cdn.imgbin.com/13/8/22/imgbin-computer-icons-user-profile-avatar-avatar-wZPGBbiFn3VsY4n1ue9VUU024.jpg",
                 cart: []
             })
             dispatch({
@@ -88,9 +89,29 @@ export const updateUserCart = (dataCart, idUser) => {
     }
 }
 
+export const updateUserPhoto = (image, idUser) => {
+    return async (dispatch) => {
+        try {
+            let res = await axios.patch(`${API_URL}/users/${idUser}`, {
+                photo: image
+            })
+
+            dispatch({
+                type: "UPDATE_USER_PHOTO",
+                payload: res.data.photo
+            })
+
+            return { success: true }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 export const logOutAction = () => {
-    return async (dispatch) => { 
+    return async (dispatch) => {
         await AsyncStorageLib.removeItem("dataUser");
-        dispatch ({type: "LOGOUT"})
+        dispatch({ type: "LOGOUT" })
     }
 }

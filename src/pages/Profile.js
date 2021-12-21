@@ -9,12 +9,13 @@ import { logOutAction } from '../actions';
 const Profile = (props) => {
 
     const dispatch = useDispatch();
-    const { iduser, username, email, status } = useSelector((state) => {
+    const { iduser, username, email, status, photo } = useSelector((state) => {
         return {
             iduser: state.userReducer.id,
             username: state.userReducer.username,
             email: state.userReducer.email,
-            status: state.userReducer.status
+            status: state.userReducer.status,
+            photo: state.userReducer.photo
         }
     })
 
@@ -131,7 +132,7 @@ const Profile = (props) => {
                     <Avatar
                         rounded
                         size="large"
-                        source={{ uri: "https://cdn.imgbin.com/13/8/22/imgbin-computer-icons-user-profile-avatar-avatar-wZPGBbiFn3VsY4n1ue9VUU024.jpg" }}
+                        source={{ uri: photo }}
                     />
                     <View style={{ marginLeft: wp(5) }}>
                         <Text style={{ color: "yellow" }} h4>{username} <Badge value={status} status="success" /></Text>
@@ -142,6 +143,7 @@ const Profile = (props) => {
                         type='material-community'
                         name="account-edit"
                         color="white"
+                        onPress = {()=> props.navigation.navigate("Account Detail")}
                     />
                 </View>
                 <View style={{ flexDirection: "row", marginTop: hp(4) }}>

@@ -89,15 +89,25 @@ const HistoryPage = (props) => {
                             <Text style={{ fontSize: 20, fontWeight: '800', marginTop: hp(2) }}>Rp. {value.totalPayment}</Text>
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: wp(3) }}>
-                        <Text style={{ backgroundColor: 'red', padding: 5, color: 'white', borderRadius: 5 }} onPress={() => btConfirm(value.id, "Pesanan Batal")}>
-                            Batalkan Pesanan
-                        </Text>
-                        <Text style={{ color: '#4FA4F3', marginHorizontal: wp(2), borderRadius: 5, padding: 5 }}>
-                            Lihat Detail Produk
-                        </Text>
+                    <View style={{ flexDirection: "row-reverse" }}>
+                        <Button
+                            title="Lihat Detail"
+                            type='outline'
+                            buttonStyle={{ padding: 3 }}
+                            titleStyle={{ fontSize: 12 }}
+                            containerStyle={{ margin: 5 }}
+                            onPress={() => props.navigation.navigate("Detail Transaction", { detail: value })}
+                        />
+                        <Button
+                            title="Batalkan Pesanan"
+                            disabled={badgeColor == "warning" ? false : true}
+                            buttonStyle={{ padding: 3, backgroundColor: "red" }}
+                            titleStyle={{ fontSize: 12 }}
+                            containerStyle={{ margin: 5 }}
+                        />
                     </View>
                 </View>
+
 
             )
         })
@@ -105,9 +115,9 @@ const HistoryPage = (props) => {
 
     return (
         <View style={{ paddingHorizontal: wp(2), paddingVertical: hp(4), backgroundColor: "white", flex: 1 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between',   }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                 {status.map((value, index) => {
-                    return <View style={{marginHorizontal: wp(2), flex: 1}}>
+                    return <View style={{ marginHorizontal: wp(2), flex: 1 }}>
                         <Text onPress={() => getTransaksiFilter(value, index)}
                             style={{
                                 textAlign: 'center',
